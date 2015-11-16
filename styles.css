@@ -1,0 +1,190 @@
+html, body {
+	min-width: 1522px;
+	height: 100%;
+	overflow: hidden;
+	color: #282c37;
+	font-size: 12px;
+	background: #d9e0ec;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html {
+	overflow-x: auto;
+}
+
+body {
+	overflow-y: auto;
+	position: relative;
+}
+
+body, input, textarea, p {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.l-container {
+	width: 1522px;
+	padding: 8px 0;
+	margin: 0 auto;
+	position: relative;
+}
+
+.l-row {
+	position: relative;
+	overflow: hidden;
+	clear: both;
+}
+
+.l-title {
+	min-height: 16px;
+	line-height: 16px;
+	padding: 16px 16px 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.l-options {
+	width: 488px;
+	height: 100%;
+	float: left;
+}
+
+.l-preview {
+	width: 1034px;
+	height: 100%;
+	padding-top: 32px;
+	float: right;
+}
+
+.b-slides {
+	height: 24px;
+	padding-top: 8px;
+	text-align: center;
+}
+
+.b-slide {
+	width: 22px;
+	height: 22px;
+	line-height: 22px;
+	margin: 0 2px;
+	display: inline-block;
+	cursor: pointer;
+	color: #282c37;
+	font-size: 12px;
+	text-align: center;
+	border: 1px solid #b9c3d2;
+	background: #fff;
+}
+
+.b-slide--active {
+	cursor: default;
+	color: #fff;
+	border-color: #315890;
+	background: #3372ce;
+}
+
+.b-settings {
+	width: 424px;
+	margin: 8px auto 7px;
+	padding: 8px 16px;
+	border-bottom: 1px solid #b9c3d2;
+	background: #fff;
+}
+
+.b-title {
+	min-height: 16px;
+	line-height: 16px;
+	padding-top: 8px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.b-title:first-child {
+	padding-top: 0;
+}
+
+.b-banner {
+	width: 970px;
+	margin: 8px auto;
+	text-align: center;
+}
+
+.b-banner-container {
+	margin: 0 auto;
+	background: #cbd2dd;
+}
+
+.b-field {
+	padding: 4px 0;
+}
+
+.ui-textbox {
+	width: 240px;
+	height: 23px;
+	line-height: 16px;
+	margin: 0;
+	padding: 3px 8px 2px;
+	outline: 0;
+	color: #282c37;
+	font-size: 12px;
+	border: 1px solid #282c37;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #fff;
+}
+
+.ui-textbox--color {
+	width: 64px;
+}
+
+.ui-textbox--time {
+	width: 40px;
+}
+
+.ui-textarea {
+	width: 100%;
+	height: 72px;
+	line-height: 16px;
+	margin: 0;
+	padding: 3px 8px 2px;
+	outline: 0;
+	resize: none;
+	color: #282c37;
+	font-size: 12px;
+	border: 1px solid #282c37;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #fff;
+}
+
+.ui-textarea--source {
+	height: 220px;
+}
+
+.ui-button {
+	min-width: 112px;
+	height: 24px;
+	line-height: 24px;
+	padding: 0 8px;
+	display: inline-block;
+	cursor: pointer;
+	outline: 0;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	border: 0;
+	border-bottom: 2px solid #315890;
+	background: #3372ce;
+}
+
+.ui-button:active {
+	box-shadow: inset 0 0 8px rgba(0, 0, 0, .5);
+}
+
+.g-hidden {
+	display: none !important;
+	visibility: hidden;
+}

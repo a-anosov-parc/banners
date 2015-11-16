@@ -1,40 +1,714 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<head>
+		<title>Конструктор баннеров для Casebook</title>
+		<link rel="stylesheet" href="normalize.css">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<style id="banner_style" type="text/css">
+			@import url(https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic);
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+			.banner {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				color: #fff;
+				font-family: Roboto, Arial, sans-serif;
+				font-size: 20px;
+				text-align: left;
+			}
 
-    <title>Banners by a-anosov-parc</title>
-  </head>
+			.logo {
+				width: 216px;
+				height: 48px;
+				position: absolute;
+			}
 
-  <body>
+			.logo img {
+				width: 216px;
+				height: 48px;
+				text-align: center;
+			}
 
-    <header>
-      <div class="container">
-        <h1>Banners</h1>
-        <h2>Banners constructor for Casebook.ru</h2>
+			.image {
+				width: 216px;
+				height: 216px;
+				position: absolute;
+			}
 
-        <section id="downloads">
-          <a href="https://github.com/a-anosov-parc/banners/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/a-anosov-parc/banners/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/a-anosov-parc/banners" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+			.image img {
+				width: 216px;
+				height: 216px;
+				text-align: center;
+			}
 
-    <div class="container">
-      <section id="main_content">
-        <h1>
-<a id="banners" class="anchor" href="#banners" aria-hidden="true"><span class="octicon octicon-link"></span></a>banners</h1>
+			.text {
+				max-height: 145px;
+				line-height: 29px;
+				position: absolute;
+				overflow: hidden;
+			}
 
-<p>Banners constructor for Casebook.ru</p>
-      </section>
-    </div>
+			.button {
+				height: 48px;
+				line-height: 50px;
+				padding: 0 16px;
+				position: absolute;
+				cursor: pointer;
+				font-size: 16px;
+				font-weight: 700;
+				letter-spacing: 1px;
+				text-align: center;
+				text-transform: uppercase;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+				-o-text-overflow: ellipsis;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				word-wrap: normal;
+			}
 
-    
-  </body>
+			/* 120x600 */
+			.b-banner-120x600 .logo {
+				width: 136px;
+				height: 30px;
+				top: 27px;
+				left: -8px;
+			}
+
+			.b-banner-120x600 .logo img {
+				width: 136px;
+				height: 30px;
+			}
+
+			.b-banner-120x600 .image {
+				width: 105px;
+				height: 105px;
+				top: 200px;
+				left: 7px;
+			}
+
+			.b-banner-120x600 .image img {
+				width: 105px;
+				height: 105px;
+			}
+
+			.b-banner-120x600 .text {
+				max-height: 180px;
+				line-height: 18px;
+				left: 20px;
+				right: 12px;
+				top: 315px;
+				font-size: 13px;
+			}
+
+			.b-banner-120x600 .button {
+				height: 32px;
+				line-height: 33px;
+				left: 8px;
+				right: 8px;
+				bottom: 15px;
+				padding: 0 4px;
+				font-size: 11px;
+				letter-spacing: 0;
+			}
+
+			/* 160x600 */
+			.b-banner-160x600 .logo {
+				width: 147px;
+				height: 33px;
+				top: 25px;
+				left: 7px;
+			}
+
+			.b-banner-160x600 .logo img {
+				width: 147px;
+				height: 33px;
+			}
+
+			.b-banner-160x600 .image {
+				width: 127px;
+				height: 127px;
+				top: 177px;
+				left: 16px;
+			}
+
+			.b-banner-160x600 .image img {
+				width: 127px;
+				height: 127px;
+			}
+
+			.b-banner-160x600 .text {
+				max-height: 176px;
+				line-height: 22px;
+				left: 28px;
+				right: 16px;
+				top: 320px;
+				font-size: 16px;
+			}
+
+			.b-banner-160x600 .button {
+				height: 38px;
+				line-height: 39px;
+				left: 16px;
+				right: 16px;
+				bottom: 15px;
+				padding: 0 8px;
+				font-size: 13px;
+				letter-spacing: 0;
+			}
+
+			/* 200x200 */
+			.b-banner-200x200 .logo {
+				width: 98px;
+				height: 22px;
+				top: 11px;
+				left: 51px;
+			}
+
+			.b-banner-200x200 .logo img {
+				width: 98px;
+				height: 22px;
+			}
+
+			.b-banner-200x200 .image {
+				width: 80px;
+				height: 80px;
+				top: 35px;
+				left: 60px;
+			}
+
+			.b-banner-200x200 .image img {
+				width: 80px;
+				height: 80px;
+			}
+
+			.b-banner-200x200 .text {
+				max-height: 30px;
+				line-height: 16px;
+				left: 16px;
+				right: 16px;
+				top: 117px;
+				font-size: 12px;
+				text-align: center;
+			}
+
+			.b-banner-200x200 .button {
+				width: 88px;
+				height: 26px;
+				line-height: 27px;
+				padding: 0 8px;
+				left: 48px;
+				bottom: 13px;
+				font-size: 9px;
+				letter-spacing: normal;
+			}
+
+			/* 240x400 */
+			.b-banner-240x400 .logo {
+				width: 172px;
+				height: 38px;
+				top: 16px;
+				left: 34px;
+			}
+
+			.b-banner-240x400 .logo img {
+				width: 172px;
+				height: 38px;
+			}
+
+			.b-banner-240x400 .image {
+				width: 153px;
+				height: 153px;
+				top: 56px;
+				left: 43px;
+			}
+
+			.b-banner-240x400 .image img {
+				width: 153px;
+				height: 153px;
+			}
+
+			.b-banner-240x400 .text {
+				max-height: 96px;
+				line-height: 24px;
+				left: 45px;
+				right: 45px;
+				top: 222px;
+				font-size: 18px;
+			}
+
+			.b-banner-240x400 .button {
+				height: 40px;
+				line-height: 41px;
+				left: 29px;
+				right: 30px;
+				bottom: 24px;
+				font-size: 13px;
+				letter-spacing: normal;
+			}
+
+			/* 250x250 */
+			.b-banner-250x250 .logo {
+				width: 123px;
+				height: 27px;
+				top: 12px;
+				left: 63px;
+			}
+
+			.b-banner-250x250 .logo img {
+				width: 123px;
+				height: 27px;
+			}
+
+			.b-banner-250x250 .image {
+				width: 104px;
+				height: 104px;
+				top: 40px;
+				left: 73px;
+			}
+
+			.b-banner-250x250 .image img {
+				width: 104px;
+				height: 104px;
+			}
+
+			.b-banner-250x250 .text {
+				max-height: 40px;
+				line-height: 20px;
+				left: 16px;
+				right: 16px;
+				top: 145px;
+				font-size: 15px;
+				text-align: center;
+			}
+
+			.b-banner-250x250 .button {
+				width: 114px;
+				height: 32px;
+				line-height: 33px;
+				padding: 0 8px;
+				left: 60px;
+				bottom: 18px;
+				font-size: 11px;
+				letter-spacing: normal;
+			}
+
+			/* 300x250 */
+			.b-banner-300x250 .logo {
+				width: 125px;
+				height: 28px;
+				top: 12px;
+				left: 87px;
+			}
+
+			.b-banner-300x250 .logo img {
+				width: 125px;
+				height: 28px;
+			}
+
+			.b-banner-300x250 .image {
+				width: 104px;
+				height: 104px;
+				top: 40px;
+				left: 98px;
+			}
+
+			.b-banner-300x250 .image img {
+				width: 104px;
+				height: 104px;
+			}
+
+			.b-banner-300x250 .text {
+				max-height: 40px;
+				line-height: 20px;
+				left: 32px;
+				right: 32px;
+				top: 145px;
+				font-size: 16px;
+				text-align: center;
+			}
+
+			.b-banner-300x250 .button {
+				width: 114px;
+				height: 32px;
+				line-height: 33px;
+				padding: 0 8px;
+				left: 85px;
+				bottom: 18px;
+				font-size: 11px;
+				letter-spacing: normal;
+			}
+
+			/* 300x600 */
+			.b-banner-300x600 .logo {
+				top: 46px;
+				left: 42px;
+			}
+
+			.b-banner-300x600 .image {
+				top: 112px;
+				left: 42px;
+			}
+
+			.b-banner-300x600 .text {
+				left: 56px;
+				right: 56px;
+				top: 356px;
+				letter-spacing: 1px;
+			}
+
+			.b-banner-300x600 .button {
+				left: 40px;
+				right: 36px;
+				bottom: 32px;
+			}
+
+			/* 336x280 */
+			.b-banner-336x280 .logo {
+				width: 134px;
+				height: 30px;
+				top: 14px;
+				left: 101px;
+			}
+
+			.b-banner-336x280 .logo img {
+				width: 134px;
+				height: 30px;
+			}
+
+			.b-banner-336x280 .image {
+				width: 118px;
+				height: 118px;
+				top: 43px;
+				left: 109px;
+			}
+
+			.b-banner-336x280 .image img {
+				width: 118px;
+				height: 118px;
+			}
+
+			.b-banner-336x280 .text {
+				max-height: 40px;
+				line-height: 20px;
+				left: 32px;
+				right: 32px;
+				top: 164px;
+				font-size: 16px;
+				text-align: center;
+			}
+
+			.b-banner-336x280 .button {
+				width: 128px;
+				height: 36px;
+				line-height: 37px;
+				padding: 0 8px;
+				left: 96px;
+				bottom: 20px;
+				font-size: 13px;
+				letter-spacing: normal;
+			}
+
+			/* 468x60 */
+			.b-banner-468x60 .logo {
+				width: 134px;
+				height: 30px;
+				top: 14px;
+				left: -4px;
+			}
+
+			.b-banner-468x60 .logo img {
+				width: 134px;
+				height: 30px;
+			}
+
+			.b-banner-468x60 .image {
+				display: none;
+			}
+
+			.b-banner-468x60 .text {
+				max-height: 32px;
+				line-height: 16px;
+				left: 128px;
+				right: 132px;
+				top: 14px;
+				font-size: 14px;
+			}
+
+			.b-banner-468x60 .button {
+				width: 96px;
+				height: 32px;
+				line-height: 34px;
+				padding: 0 8px;
+				right: 12px;
+				bottom: 14px;
+				font-size: 11px;
+				letter-spacing: normal;
+			}
+
+			/* 728x90 */
+			.b-banner-728x90 .logo {
+				width: 200px;
+				height: 44px;
+				top: 22px;
+				left: -2px;
+			}
+
+			.b-banner-728x90 .logo img {
+				width: 200px;
+				height: 44px;
+			}
+
+			.b-banner-728x90 .image {
+				display: none;
+			}
+
+			.b-banner-728x90 .text {
+				max-height: 48px;
+				line-height: 24px;
+				left: 200px;
+				right: 220px;
+				top: 21px;
+			}
+
+			.b-banner-728x90 .button {
+				width: 136px;
+				height: 48px;
+				right: 24px;
+				bottom: 21px;
+				letter-spacing: normal;
+			}
+
+			/* 970x90 */
+			.b-banner-970x90 .logo {
+				width: 216px;
+				height: 48px;
+				top: 20px;
+				left: -13px;
+			}
+
+			.b-banner-970x90 .image {
+				display: none;
+			}
+
+			.b-banner-970x90 .text {
+				height: 29px;
+				left: 208px;
+				right: 220px;
+				top: 31px;
+				-o-text-overflow: ellipsis;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-wrap: normal;
+			}
+
+			.b-banner-970x90 br {
+				display: none;
+			}
+
+			.b-banner-970x90 .button {
+				width: 152px;
+				height: 48px;
+				right: 18px;
+				bottom: 21px;
+			}
+		</style>
+
+		<div class="l-container">
+			<div class="l-row">
+				<div class="l-options">
+					<div class="b-slides js-slides"></div>
+					<div class="js-settings-container"></div>
+				</div>
+			</div>
+			<div class="js-sizes"></div>
+		</div>
+
+		<script src="jquery.min.js"></script>
+		<script src="lodash.min.js"></script>
+		<script src="handlebars.min.js"></script>
+
+		<script id="slides" type="text/x-handlebars-template">
+			{{#each slides}}
+				<div class="b-slide{{#unless @index}} b-slide--active{{/unless}} js-slide">
+					{{inc @index}}
+				</div>
+			{{/each}}
+		</script>
+
+		<script id="settings" type="text/x-handlebars-template">
+			{{#each slides}}
+				<div class="b-settings js-settings js-settings--{{@index}}{{#if @index}} g-hidden{{/if}}">
+					<div class="b-title">
+						Время отображения слайда (в секундах)
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--time js-textbox--time" type="text" maxlength="3" value="{{time}}">
+					</div>
+					<div class="b-title">
+						Цвет фона баннера
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--background_color" type="text" maxlength="6" value="{{backgroundColor}}">
+					</div>
+					<div class="b-title">
+						Логотип (png, 216x48 / 432x96 для retina)
+					</div>
+					<div class="b-field">
+						<input class="js-file" type="file" data-type="logo" data-index="{{@index}}">
+					</div>
+					<div class="b-title">
+						Изображение (png, 216x216 / 432x432 для retina)
+					</div>
+					<div class="b-field">
+						<input class="js-file" type="file" data-type="image" data-index="{{@index}}">
+					</div>
+					<div class="b-title">
+						Цвет текста баннера
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--text_color" type="text" maxlength="6" value="{{textColor}}">
+					</div>
+					<div class="b-title">
+						Текст баннера
+					</div>
+					<div class="b-field">
+						<textarea class="ui-textarea js-textarea--text">{{text}}</textarea>
+					</div>
+					<div class="b-title">
+						Цвет фона кнопки
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--button_background_color" type="text" maxlength="6" value="{{buttonBackgroundColor}}">
+					</div>
+					<div class="b-title">
+						Цвет текста на кнопке
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--button_text_color" type="text" maxlength="6" value="{{buttonTextColor}}">
+					</div>
+					<div class="b-title">
+						Текст на кнопке
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox js-textbox--button_text" type="text" maxlength="50" value="{{buttonText}}">
+					</div>
+					<br>
+					<div class="b-field">
+						<input class="ui-button js-button--generate" type="button" value="Создать баннеры">
+					</div>
+				</div>
+			{{/each}}
+		</script>
+
+		<script id="size_settings" type="text/x-handlebars-template">
+			{{#each slides}}
+				<div class="b-settings js-settings js-settings--{{@index}}{{#if @index}} g-hidden{{/if}}">
+					<div class="b-title">
+						Особый текст для баннера этого размера
+					</div>
+					<div class="b-field">
+						<textarea class="ui-textarea js-textarea--text"></textarea>
+					</div>
+					<div class="b-title">
+						Исходный код баннера (только для чтения)
+					</div>
+					<div class="b-field">
+						<textarea class="ui-textarea ui-textarea--source js-textarea--source" readonly="readonly"></textarea>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+
+		<script id="sizes" type="text/x-handlebars-template">
+			{{#each sizes}}
+				<div class="l-row">
+					<div class="l-options">
+						<div class="l-title">
+							{{width}}x{{height}}
+						</div>
+						<div class="js-settings-container-{{width}}x{{height}}"></div>
+					</div>
+					<div class="l-preview">
+						<div class="b-banner">
+							<div class="b-banner-container b-banner-{{width}}x{{height}} js-banner-{{width}}x{{height}}" style="width: {{width}}px; height: {{height}}px;"></div>
+						</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+
+		<script id="banner" type="text/x-handlebars-template">
+			{{#each slides}}
+				<div class="banner" rel="{{time}}" style="background: #{{backgroundColor}};{{#if @index}} display: none;{{/if}}">
+					{{#if logo}}
+						<div class="logo">
+							<img src="{{logo}}">
+						</div>
+					{{/if}}
+					{{#if image}}
+						<div class="image">
+							<img src="{{image}}">
+						</div>
+					{{/if}}
+					<div class="text" style="color: #{{textColor}};">
+						{{{text}}}
+					</div>
+					<div class="button" style="color: #{{buttonTextColor}}; background: #{{buttonBackgroundColor}};">
+						{{buttonText}}
+					</div>
+				</div>
+			{{/each}}
+		</script>
+
+		<script src="scripts.js"></script>
+
+		<script id="banner_script">
+			window.startAnimation = function () {
+				var slideIndex = 0,
+					slidesCount = 0,
+					containers = [],
+					divs = document.getElementsByTagName('div'),
+					i, j,
+					nextSlide = function () {
+						window.animationInterval = setTimeout(function () {
+							slideIndex += 1;
+
+							if (slideIndex >= slidesCount) {
+								slideIndex = 0;
+							}
+
+							for (i = 0; i < slidesCount; i++) {
+								for (j = 0; j < containers.length; j++) {
+									containers[j].children[i].style.display = 'none';
+								}
+							}
+
+							for (j = 0; j < containers.length; j++) {
+								containers[j].children[slideIndex].style.display = 'block';
+							}
+
+							nextSlide();
+						}, parseInt(containers[0].children[slideIndex].getAttribute('rel'), 10) * 1000);
+					};
+
+				for (i = 0; i < divs.length; i++) {
+					if ((' ' + divs[i].className + ' ').indexOf(' b-banner-container ') > -1) {
+						containers.push(divs[i]);
+					}
+				}
+
+				if (containers.length) {
+					slidesCount = containers[0].children.length;
+					nextSlide();
+				}
+			};
+
+			window.startAnimation();
+		</script>
+	</body>
 </html>
