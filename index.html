@@ -561,12 +561,14 @@
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox ui-textbox--time js-textbox--time" type="text" maxlength="3" value="{{time}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Цвет фона баннера
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox ui-textbox--color js-textbox--background_color" type="text" maxlength="6" value="{{backgroundColor}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Логотип (png, 216x48 / 432x96 для retina)
@@ -585,30 +587,35 @@
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox ui-textbox--color js-textbox--text_color" type="text" maxlength="6" value="{{textColor}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Текст баннера
 					</div>
-					<div class="b-field">
+					<div class="b-field b-field--textarea">
 						<textarea class="ui-textarea js-textarea--text">{{text}}</textarea>
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Цвет фона кнопки
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox ui-textbox--color js-textbox--button_background_color" type="text" maxlength="6" value="{{buttonBackgroundColor}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Цвет текста на кнопке
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox ui-textbox--color js-textbox--button_text_color" type="text" maxlength="6" value="{{buttonTextColor}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<div class="b-title">
 						Текст на кнопке
 					</div>
 					<div class="b-field">
 						<input class="ui-textbox js-textbox--button_text" type="text" maxlength="50" value="{{buttonText}}">
+						&nbsp;&nbsp;<span class="b-link js-apply">Применить ко всем шаблонам</span>
 					</div>
 					<br>
 					<div class="b-field">
@@ -625,12 +632,15 @@
 
 		<script id="size_settings" type="text/x-handlebars-template">
 			{{#each slides}}
-				<div class="b-settings js-settings js-settings--{{@index}}{{#if @index}} g-hidden{{/if}}">
+				<div class="b-settings js-settings js-settings--{{@index}}{{#if @index}} g-hidden{{/if}}" data-index="{{@index}}">
 					<div class="b-title">
 						Текст слайда для текущего шаблона
 					</div>
 					<div class="b-field">
 						<textarea class="ui-textarea js-textarea--text"></textarea>
+					</div>
+					<div class="b-field">
+						<input class="ui-button js-button--generate_slide" type="button" disabled="disabled" value="Применить">
 					</div>
 					<div class="b-title">
 						Исходный код баннера (только для чтения)
@@ -649,7 +659,7 @@
 						<div class="l-title">
 							{{width}}x{{height}}
 						</div>
-						<div class="js-settings-container-{{width}}x{{height}}"></div>
+						<div class="b-settings-container js-settings-container-{{width}}x{{height}}" data-width="{{width}}" data-height="{{height}}"></div>
 					</div>
 					<div class="l-preview">
 						<div class="b-banner">
