@@ -58,6 +58,12 @@ body, input, textarea, p {
 	height: 24px;
 	padding-top: 8px;
 	text-align: center;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .b-slide {
@@ -85,6 +91,7 @@ body, input, textarea, p {
 	width: 424px;
 	margin: 8px auto 7px;
 	padding: 8px 16px;
+	position: relative;
 	border-bottom: 1px solid #b9c3d2;
 	background: #fff;
 }
@@ -109,7 +116,27 @@ body, input, textarea, p {
 
 .b-banner-container {
 	margin: 0 auto;
+	position: relative;
 	background: #cbd2dd;
+}
+
+.b-corner {
+	height: 16px;
+	line-height: 16px;
+	top: 8px;
+	right: 16px;
+	position: absolute;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.b-link {
+	color: #3372ce;
+	cursor: pointer;
 }
 
 .b-field {

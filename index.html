@@ -12,7 +12,9 @@
 			.banner {
 				width: 100%;
 				height: 100%;
-				position: relative;
+				top: 0;
+				left: 0;
+				position: absolute;
 				color: #fff;
 				font-family: Roboto, Arial, sans-serif;
 				font-size: 20px;
@@ -544,6 +546,11 @@
 					{{inc @index}}
 				</div>
 			{{/each}}
+			{{#unless isMaxSlidesCount}}
+				<div class="b-slide js-slide--add">
+					+
+				</div>
+			{{/unless}}
 		</script>
 
 		<script id="settings" type="text/x-handlebars-template">
@@ -607,6 +614,11 @@
 					<div class="b-field">
 						<input class="ui-button js-button--generate" type="button" value="Создать баннеры">
 					</div>
+					{{#unless isMinSlidesCount}}
+						<div class="b-corner">
+							<span class="b-link js-slide--remove" data-index="{{@index}}">Удалить слайд</span>
+						</div>
+					{{/unless}}
 				</div>
 			{{/each}}
 		</script>
@@ -641,7 +653,7 @@
 					</div>
 					<div class="l-preview">
 						<div class="b-banner">
-							<div class="b-banner-container b-banner-{{width}}x{{height}} js-banner-{{width}}x{{height}}" style="width: {{width}}px; height: {{height}}px;"></div>
+							<div class="b-banner-container js-banner-container b-banner-{{width}}x{{height}} js-banner-{{width}}x{{height}}" style="width: {{width}}px; height: {{height}}px; position: relative;"></div>
 						</div>
 					</div>
 				</div>
@@ -703,7 +715,7 @@
 					};
 
 				for (i = 0; i < divs.length; i++) {
-					if ((' ' + divs[i].className + ' ').indexOf(' b-banner-container ') > -1) {
+					if ((' ' + divs[i].className + ' ').indexOf(' js-banner-container ') > -1) {
 						containers.push(divs[i]);
 					}
 				}
