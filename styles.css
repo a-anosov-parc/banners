@@ -1,6 +1,5 @@
 html, body {
 	min-width: 1522px;
-	height: 100%;
 	overflow: hidden;
 	color: #282c37;
 	font-size: 12px;
@@ -10,11 +9,10 @@ html, body {
 }
 
 html {
-	overflow-x: auto;
+	overflow: auto;
 }
 
 body {
-	overflow-y: auto;
 	position: relative;
 }
 
