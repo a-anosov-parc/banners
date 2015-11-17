@@ -1,4 +1,4 @@
-/*global _:false, Handlebars:false */
+/*global _:false, Handlebars:false, ZeroClipboard:false */
 'use strict';
 
 Handlebars.registerHelper('inc', function (value, options) {
@@ -83,191 +83,319 @@ $(function() {
 			}]
 		};
 
-	window.initConstructor = function () {
+	window.initConstructor = function (isFirstInit) {
+		var containerClass = '.js-settings-container',
+			sizesClass = '.js-sizes';
+
 		_.forEach(slidesDefaultSettings.slides, function (slide) {
-			slide.logo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbAAAABgCAYAAAB8ByexAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAClFJREFUeNrs3eFx2zYUwPGXXr+bnUDqBFEmMDuB1QnMTGB1AssTRJkg9ASVJyg9QeUN6A3kCVThApwZViQeSYCU4//vDhe3tgQQhPAIEIQ+HA4HAQDgrfmFKgAAEMAAACCAAQBAAAMAEMAAACCAAQBAAAMAEMAAACCAAQBAAAMAgAAGACCAAQBAAAMAgAAGACCAAQBAAAMAgAAGACCAAQBAAAMAgAAGAAABDABAAAMAYGS/UgVANOkxrVt+X3h+j3A2x7Ro+f3qmHZU09vy4XA4UAtAHNtjuvJ9BqmmUfg6ujsuJt4ephCBeBKqACCAAQBAAAMAEMAAACCAAQBAAAMAEMAAACCAAQBAAAMAEMAAAHhD2AvxPM1tMnu3ndrNobTJ7N22D5y3yzNt+H1R+zd03u6469yxFiPXdax8NXXh6qNe/6HPe2qPfdFyzvcSb6/ApHKs85b27hJAADszphPJ7L+zDq97sh3MZsCH2+S7FP++fcZt5edH+b7fXz6gQ+2SdzXf3ObdJ99lJV10rGt3vGXENtBWLlf/D/J9774+QWVu8zB5fZzgnA9p7y82f5fGtrSftVlL+VJhY+BxmM18SZOmxTEVhzDyY0o65L08pn2AfM17rDset8m7DJDvskOeaYA8Hc3xas7r0HJlHY5/btvIIWAdJB3Pe8hzUHY4/yHO51JZrjn92jiJSpg2ZYfw9jYo+vLOI+SdT3Tc+UR1vfN04IWy7ENlysCxj1AHpbK9mbQ5xJGPEMAWyvrL6NfGSyzimI6ZivgW4X0v7JRi207oZurpOkLe13Z6xTdl+C1CvusJ6vpjgGmsEOdh03DvqHo/7Z+O06VaM9ve5ooy3kT6LF3bKc1YEnuMvvr7GrkcqCGATWcT8b0vWt5/XrunEdpNS2eWRDzu24Z8k8idyqUNylMy53vV8vvtCPnnnvtdN5HLcB3pPGiD173nHIAA9tPIpNuN674f6FMd+hgfslXLcWtGAWaxxGMlPQ3IV5vn0NH0OYzop2prLpAvWkb8Y4iRTy7+hS5PBK9psArxvDqbumf5/0o7t8Rds3osPXFlvFC87t6+rrpce27fb63oENOO/7/aEZi6KRtGjrntKJsseuRpvMjrqkZ3zG5Z91L803xXZ9CmZrZt7E8EMFHWwfZE3S86HF92oiOfe85Z/fwXJ45hqWzvM1veUCsAc8Wxu1WHe8H4uBE4SSoC3FRe93yPofkmypvZfY57rsi7a76+smoWvawU+aY9z3N9QcSm9l6mbFvl69Me51uzejWxC1Z8iobFIxrLQItQVoEWcWgW/ew7LGAhsYjjp+G7In1WTIes7d9JxxGJ5qqzzV7i3VMqFXl35Zs+3Cqu2Df2SjsWcx4/29HKSn58aHpnRyCPEfPOPHW7V45k+7bBO/HfpyuU03RJoBkSzaKfTHjea1IEsPNUBvq7JFLesaZL0jOu61gd1VfbyfsuCopI+WsXeOx7BlFNGywCn6shNOdC7AXHVkAAQ2/7Hh/4tpHEy8THkyuC2F3P352rlUx7/4R7Nz8G20J0Kw5zqmt6LOJ429aeK9xNwxXm8sTr9iNcUfo6S3MT3jyv5Bav5CdGPmsZb1Ub3o9b0T1eYrbwyqguAhiG20n3abdS4j6D1sYEJc2KNhPIbmx6ktcVgmWEMmXKOlzQ3N69J4IXAQznp2nn8yZpz3y2oluGX2WWT3+xaegmvk3BckYTgAfL5QlgOCNmCnEl4z3oKvbDb/L7p+frL20yK8Qe7Eiy4FRixM8MAeyMsIjj/Y64zPTj7QSjDxNwPsvwBSNXNhAWwvQe4vNtlwUCGEYKXoVMO21mOoJUwjzbZEZk/wr3JhCfaWtsGUUAw8TB4+IMyuEWoHyS789CPQ98v28yzXNkYkeTJU3rTXu07dBnLfp7xSCAISDtnnJjB7KV7RT+lO/P2AwJzl2ZZ8c+DEwJAezNK2w79LU/c/HHA8xngkUcb1/q+VDWA5jGg7TvPGHyvIxwLO5r4lfy+pX3XfIJvZkr3p+Vbd9tU+wfhecRCWAYzHyA2h6+/Et+fObLt9jBLRXeKfK9jHhcbr/FXF53hF+J7r5dEqlMiS3H/ERZYz2jhvFpV8reim4fTRDA0GP05UZcm9qVo28EFOsDuZDmB6hdp3FqiXJpX7exQezLRHVtgulVS0BPaI4/DTNzYe6H3SjaBCtgJ8Q9MNSDRSxLeX2Oq56ulB2BCWIPE9VNW4C6kP4LSKZe1Ubgbb4o8X2RqptKBAEMFfNAnU+Mhy6XE3e6oYNsEuic9C3XF3vF7wuAaaT6TDvUU59p433AMsxHbGduVsDnllEYAey98V3ZzRRBIhP/lGDX6cClp5MxHe3fEmcZfhr475wXRT0minrx3X8bElhNYHAPZWe1jjqRuPccNaOIRPrvn6lpgytFEFgoyxDyos2UXfMNBzld2jS4BzbdKMIXfL7YjrOQH1cTut3kL5X51APnR09nVtgPZGk7Lpdf7OX3K5tn7ulEu5Zj56mrC/s3phOv77G4UI44Q30NzeXAQHUqiD4q3vPWBs7c1sW+MuJZKAN4U7DSBHZzDszD6G71a729m4uWK2UdFIHb5VrR/lmVOJEP5muZMTrTWXwbIZ/fax3ItkNHMLhtnRjF/K143bMtc1HpROcdOvbfakFojIUfDw2j10LirtasB9Gk4cJgrIUvfzQEkJ2M8/zhszRPM/o6uruWAOR2r7noefyIhCnEaWwl/pdH3p+4+t1OfMya3TZmttN338903SEI3Mv/p5DyEep6cyZt6pQxjt+N9IqWUcwYYp2HnfIYcmFRDAHsHdhL3IUQLw0fuDECp2/kGfPqe9VQ1zE70Mczuepet7S1LHLeL572vJVhO6xoz0PMC4mN+PfunAnTiASwd8JcrX2N8L7uYeQyYmfWdxNe09F/jhS8ltJ8A38TqQN9Ev3uJk2vD7Gh8Z2032vaRqr3anvzLdbIIgaxx4HnocsFmO8C8Eam25OTAIZRmavWPwOOiswH2beVkuvM+uRpAsUfAz+gJnB/Ev9KTK170W0flUmYr3FxvsrwLzh0Gxr/NaBc96Kf3voUKGA6D9Jt665s4LGeCp53Mt4XTZaimznJ6dpGYhZxkCZPyTFlx7Q7dLc/pvyY0o55zu3rNApbvurr28q6U5ZheUzbHsdcHtPGHkOful4NrGttvivP+y0HlKusvb5LSu1x7Eeu+3p773PuXfta2ffR5rnrcC58aaNoJ/RrIyRWIZ4ft3R9Ia83hN3P1SXOpf3vXYD80koei0o+7v3LEY7blGEur6vITh1z6PJo63pXqe8xzCvlksqUcGnLVAQsy6KSX/VcuCnf6vRvGakt1M+9+7man2uPBV0EHAIYAOBN4h4YAIAABgAAAQwAAAIYAIAABgAAAQwAAAIYAIAABgAAAQwAAAIYAAAEMAAAAQwAAAIYAAAEMAAAAQwAAAIYAAAEMAAAAQwAAAIYAAAEMAAACGAAAAIYAAAEMAAACGAAAAIYAAAEMAAAhvlPgAEAgX11IloJUf8AAAAASUVORK5CYII=';
+			if (!slide.logo) {
+				slide.logo = 'data:image/png;base64,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';
+			}
 		});
 
 		$('.js-slides').html(Handlebars.compile($('#slides').html())(_.extend(_.cloneDeep(slidesDefaultSettings), {
 			isMaxSlidesCount: slidesDefaultSettings.slides.length >= maxSlidesCount
 		})));
 
-		$('.js-settings-container').html(Handlebars.compile($('#settings').html())({
-			slides: _.map(_.cloneDeep(slidesDefaultSettings).slides, function (item) {
-				item.isMinSlidesCount = slidesDefaultSettings.slides.length <= 1;
-				return item;
-			})
-		}));
+		if (!isFirstInit) {
+			containerClass = '.js-settings-container-temp';
+			sizesClass = '.js-sizes-temp';
+		}
 
-		$('.js-sizes').html(Handlebars.compile($('#sizes').html())(slidesSizes));
+		$(containerClass).html(Handlebars.compile($('#settings').html())(_.cloneDeep(slidesDefaultSettings)));
+		$(sizesClass).html(Handlebars.compile($('#sizes').html())(slidesSizes));
 
 		_.forEach(slidesSizes.sizes, function (size) {
-			$('.js-settings-container-' + size.width + 'x' + size.height)
+			$(sizesClass + ' .js-settings-container-' + size.width + 'x' + size.height)
 				.html(Handlebars.compile($('#size_settings').html())(slidesDefaultSettings));
 		});
 
-		$('.js-slide').on('click', function (e) {
-			var $item = $(e.currentTarget),
-				activeClass = 'b-slide--active',
-				hiddenClass = 'g-hidden';
+		if (!isFirstInit) {
+			$(containerClass).find('.js-settings:last').appendTo($('.js-settings-container'));
 
-			$('.js-slide').removeClass(activeClass);
-			$item.addClass(activeClass);
-
-			$('.js-settings').addClass(hiddenClass);
-			$('.js-settings--' + $item.index()).removeClass(hiddenClass);
-		});
-
-		$('.js-slide--add').on('click', function () {
-			if (slidesDefaultSettings.slides.length < maxSlidesCount) {
-				window.stopAnimation();
-
-				slidesDefaultSettings.slides.push({
-					time: 3,
-					backgroundColor: 'aaa',
-					image: '',
-					textColor: 'fff',
-					text: '',
-					buttonText: 'Попробовать',
-					buttonTextColor: 'fff',
-					buttonBackgroundColor: '909090'
-				});
-
-				window.initConstructor();
-			}
-		});
-
-		$('.js-slide--remove').on('click', function (e) {
-			if (slidesDefaultSettings.slides.length > 1) {
-				window.stopAnimation();
-				slidesDefaultSettings.slides.splice(parseInt($(e.currentTarget).data('index'), 10), 1);
-				window.initConstructor();
-			}
-		});
-
-		$('.js-file').on('change', function (e) {
-			var $file = $(e.currentTarget),
-				file = $file[0].files[0],
-				fr = new FileReader(file),
-				index = parseInt($file.data('index'), 10),
-				type = $file.data('type');
-
-			fr.onload = function () {
-				slidesDefaultSettings.slides[index][type] = fr.result;
-			};
-
-			fr.readAsDataURL(file);
-		});
-
-		$('.js-apply').on('click', function (e, index) {
-			var $link = $(e.currentTarget),
-				$input = $link.prev(),
-				classes = $input.get(0).className,
-				classesRegExp = classes.match(/js\-[a-z_\-]+$/),
-				className = classesRegExp[0] || '',
-				activeSlideIndex = (typeof(index) === 'undefined') ? $('.b-slide--active').index() : index,
-				$inputs = $('.js-settings--' + activeSlideIndex + ' .' + className);
-
-			$inputs.val($inputs.eq(0).val());
-		});
-
-		$('.js-button--generate').on('click', function (e, options) {
-			var params = {
-					slides: []
-				};
-
-			if (!options) {
-				_.forEach(_.range(slidesDefaultSettings.slides.length), function (i) {
-					$.each($('.js-settings--' + i + ':eq(0) .js-apply'), function (index, item) {
-						$(item).trigger('click', [i]);
-					});
-				});
-			}
-
-			_.forEach(slidesDefaultSettings.slides, function (slide, index) {
-				var $slideForm = $('.js-settings-container .js-settings--' + index);
-
-				params.slides[index] = {
-					time: $.trim($slideForm.find('.js-textbox--time').val()),
-					backgroundColor: $.trim($slideForm.find('.js-textbox--background_color').val()),
-					logo: slidesDefaultSettings.slides[index].logo || '',
-					image: slidesDefaultSettings.slides[index].image || '',
-					textColor: $.trim($slideForm.find('.js-textbox--text_color').val()),
-					text: $.trim($slideForm.find('.js-textarea--text').val()).replace(/\n/g, ' <br>'),
-					buttonText: $.trim($slideForm.find('.js-textbox--button_text').val()),
-					buttonTextColor: $.trim($slideForm.find('.js-textbox--button_text_color').val()),
-					buttonBackgroundColor: $.trim($slideForm.find('.js-textbox--button_background_color').val())
-				};
+			$.each($(sizesClass).find('.l-row'), function (index, row) {
+				$(row).find('.js-settings:last')
+					.appendTo($('.js-sizes').find('.l-row').eq(index).find('.b-settings-container'));
 			});
 
-			_.forEach(slidesSizes.sizes, function (size) {
-				var sizeParams = _.cloneDeep(params);
+			$(containerClass).empty();
+			$(sizesClass).empty();
+		}
 
-				_.forEach(slidesDefaultSettings.slides, function (slide, index) {
-					var $slideSizeForm = $('.js-settings-container-' + size.width + 'x' +
-										   size.height + ' .js-settings--' + index),
-						slideSizeParams = {},
-						text = $.trim($slideSizeForm.find('.js-textarea--text').val()).replace(/\n/g, ' <br>');
+		// Copy to clipboard via flash
+		ZeroClipboard.destroy();
 
-					if (text) {
-						slideSizeParams.text = text;
-					}
+		var client = new ZeroClipboard($('.js-slide--copy').get(0));
 
-					sizeParams.slides[index] = _.extend(sizeParams.slides[index], slideSizeParams);
+		client.on('ready', function (event) {
+			client.on('copy', function (event) {
+				var $textarea = $(event.target).closest('.b-title').next().find('textarea');
+
+				$textarea.select();
+				event.clipboardData.setData('text/plain',$textarea.val());
+			});
+		});
+	};
+
+	window.stopAnimation = function () {
+		if (window.animationIntervals) {
+			for (var i = 0; i < window.animationIntervals.length; i++) {
+				clearTimeout(window.animationIntervals[i]);
+			}
+		}
+
+		$('.js-banner-container').empty();
+		$('.js-textarea--source').val('');
+		$('.js-button--generate_slide').prop('disabled', true);
+	};
+
+	window.initConstructor(true);
+	$('body').scrollTop(0);
+
+	// Events
+	$('.l-container').on('click', '.js-slide', function (e) {
+		var $item = $(e.currentTarget),
+			activeClass = 'b-slide--active',
+			hiddenClass = 'g-hidden';
+
+		$('.js-slide').removeClass(activeClass);
+		$item.addClass(activeClass);
+
+		$('.js-settings').addClass(hiddenClass);
+		$('.js-settings--' + $item.index()).removeClass(hiddenClass);
+	});
+
+	$('.l-container').on('click', '.js-slide--add', function () {
+		if (slidesDefaultSettings.slides.length < maxSlidesCount) {
+			var activeIndex = $('.b-slide--active').index();
+
+			window.stopAnimation();
+
+			slidesDefaultSettings.slides.push({
+				time: 3,
+				backgroundColor: 'aaa',
+				image: '',
+				textColor: 'fff',
+				text: '',
+				buttonText: 'Попробовать',
+				buttonTextColor: 'fff',
+				buttonBackgroundColor: '909090'
+			});
+
+			window.initConstructor();
+			$('.js-slide').eq(activeIndex).trigger('click');
+			$('.js-slide--remove').toggleClass('g-hidden', slidesDefaultSettings.slides.length <= 1);
+		}
+	});
+
+	$('.l-container').on('click', '.js-slide--remove', function (e) {
+		var slidesCount = slidesDefaultSettings.slides.length;
+
+		if (slidesCount > 1) {
+			var activeIndex = parseInt($(e.currentTarget).data('index'), 10),
+				slidesClasses = '';
+
+			window.stopAnimation();
+			slidesDefaultSettings.slides.splice(activeIndex, 1);
+			$('.js-settings--' + activeIndex).remove();
+			$('.b-slide--active').remove();
+
+			for (var i = 0; i < slidesCount; i++) {
+				slidesClasses += ' js-settings--' + i;
+			}
+
+			$.each($('.b-settings-container, .js-settings-container'), function (index, container) {
+				var $settings = $(container).children();
+
+				$settings.removeClass($.trim(slidesClasses));
+
+				$.each($settings, function (index, settings) {
+					$(settings)
+						.addClass('js-settings--' + index)
+						.data('index', index)
+						.find('.js-file')
+						.data('index', index)
+						.end()
+						.find('.js-slide--remove')
+						.data('index', index);
 				});
+			});
 
-				var source = Handlebars.compile($('#banner').html())(sizeParams);
+			$('.js-slides').html(Handlebars.compile($('#slides').html())(_.extend(_.cloneDeep(slidesDefaultSettings), {
+				isMaxSlidesCount: slidesDefaultSettings.slides.length >= maxSlidesCount
+			})));
 
-				if (options && $('.js-banner-' + size.width + 'x' + size.height).children().length) {
-					if ((options.width === size.width) && (options.height === size.height)) {
-						$('.js-banner-' + size.width + 'x' + size.height)
-							.children()
-							.eq(options.index)
-							.after($('<div/>').html(source).children().eq(options.index))
-							.remove();
-					}
+			$('.js-slide')
+				.eq(activeIndex - (activeIndex === slidesDefaultSettings.slides.length ? 1 : 0))
+				.trigger('click');
 
+			$('.js-slide--remove').toggleClass('g-hidden', slidesDefaultSettings.slides.length <= 1);
+		}
+	});
+
+	$('.l-container').on('change', '.js-file', function (e) {
+		var $file = $(e.currentTarget),
+			file = $file[0].files[0],
+			fr = new FileReader(file),
+			index = parseInt($file.data('index'), 10),
+			type = $file.data('type');
+
+		fr.onload = function () {
+			slidesDefaultSettings.slides[index][type] = fr.result;
+		};
+
+		fr.readAsDataURL(file);
+	});
+
+	$('.l-container').on('click', '.js-apply', function (e, index) {
+		var $link = $(e.currentTarget),
+			$input = $link.prev(),
+			classes = $input.get(0).className,
+			classesRegExp = classes.match(/js\-[a-z_\-]+$/),
+			className = classesRegExp[0] || '',
+			activeSlideIndex = (typeof(index) === 'undefined') ? $('.b-slide--active').index() : index,
+			$inputs = $('.js-settings--' + activeSlideIndex + ' .' + className);
+
+		$inputs.val($inputs.eq(0).val());
+	});
+
+	$('.l-container').on('click', '.js-button--generate', function (e, options) {
+		var params = {
+				slides: []
+			};
+
+		if (!options) {
+			_.forEach(_.range(slidesDefaultSettings.slides.length), function (i) {
+				$.each($('.js-settings--' + i + ':eq(0) .js-apply'), function (index, item) {
+					$(item).trigger('click', [i]);
+				});
+			});
+		}
+
+		_.forEach(slidesDefaultSettings.slides, function (slide, index) {
+			var $slideForm = $('.js-settings-container .js-settings--' + index);
+
+			params.slides[index] = {
+				time: $.trim($slideForm.find('.js-textbox--time').val()),
+				backgroundColor: $.trim($slideForm.find('.js-textbox--background_color').val()),
+				logo: slidesDefaultSettings.slides[index].logo || '',
+				image: slidesDefaultSettings.slides[index].image || '',
+				textColor: $.trim($slideForm.find('.js-textbox--text_color').val()),
+				text: $.trim($slideForm.find('.js-textarea--text').val()).replace(/\n/g, ' <br>'),
+				buttonText: $.trim($slideForm.find('.js-textbox--button_text').val()),
+				buttonTextColor: $.trim($slideForm.find('.js-textbox--button_text_color').val()),
+				buttonBackgroundColor: $.trim($slideForm.find('.js-textbox--button_background_color').val())
+			};
+		});
+
+		_.forEach(slidesSizes.sizes, function (size) {
+			var sizeParams = _.cloneDeep(params);
+
+			_.forEach(slidesDefaultSettings.slides, function (slide, index) {
+				var $slideSizeForm = $('.js-settings-container-' + size.width + 'x' +
+									   size.height + ' .js-settings--' + index),
+					slideSizeParams = {},
+					time = $.trim($slideSizeForm.find('.js-textbox--time').val()),
+					backgroundColor = $.trim($slideSizeForm.find('.js-textbox--background_color').val()),
+					textColor = $.trim($slideSizeForm.find('.js-textbox--text_color').val()),
+					text = $.trim($slideSizeForm.find('.js-textarea--text').val()).replace(/\n/g, ' <br>'),
+					buttonText = $.trim($slideSizeForm.find('.js-textbox--button_text').val()),
+					buttonTextColor = $.trim($slideSizeForm.find('.js-textbox--button_text_color').val()),
+					buttonBackgroundColor = $.trim($slideSizeForm.find('.js-textbox--button_background_color').val());
+
+				if (time) {
+					slideSizeParams.time = time;
+				}
+
+				if (backgroundColor) {
+					slideSizeParams.backgroundColor = backgroundColor;
+				}
+
+				if (backgroundColor) {
+					slideSizeParams.backgroundColor = backgroundColor;
+				}
+
+				if (textColor) {
+					slideSizeParams.textColor = textColor;
+				}
+
+				if (buttonText) {
+					slideSizeParams.buttonText = buttonText;
+				}
+
+				if (buttonTextColor) {
+					slideSizeParams.buttonTextColor = buttonTextColor;
+				}
+
+				if (buttonBackgroundColor) {
+					slideSizeParams.buttonBackgroundColor = buttonBackgroundColor;
+				}
+
+				sizeParams.slides[index] = _.extend(sizeParams.slides[index], slideSizeParams);
+			});
+
+			var source = Handlebars.compile($('#banner').html())(sizeParams);
+
+			if (options && $('.js-banner-' + size.width + 'x' + size.height).children().length) {
+				if ((options.width === size.width) && (options.height === size.height)) {
 					$('.js-banner-' + size.width + 'x' + size.height)
 						.children()
-						.css('display', 'none')
-						.eq(0)
-						.css('display', 'block');
-				} else {
-					$('.js-banner-' + size.width + 'x' + size.height).html(source);
+						.eq(options.index)
+						.after($('<div/>').html(source).children().eq(options.index))
+						.remove();
+
 					$('.js-settings-container-' + size.width + 'x' + size.height + ' .js-textarea--source')
 						.val('<style>' + $('#banner_style').html() + '</style>' +
 							 $('.js-banner-' + size.width + 'x' + size.height).parent().html() +
 							 '<script>' + $('#banner_script').html() + '</' + 'script>')
 						.scrollTop(0);
 				}
-			});
 
-			clearTimeout(window.animationInterval);
-			window.startAnimation();
-			$('.js-button--generate_slide').prop('disabled', false);
+				$('.js-banner-' + size.width + 'x' + size.height)
+					.children()
+					.css('display', 'none')
+					.eq(0)
+					.css('display', 'block');
+			} else {
+				$('.js-banner-' + size.width + 'x' + size.height).html(source);
+				$('.js-settings-container-' + size.width + 'x' + size.height + ' .js-textarea--source')
+					.val('<style>' + $('#banner_style').html() + '</style>' +
+						 $('.js-banner-' + size.width + 'x' + size.height).parent().html() +
+						 '<script>' + $('#banner_script').html() + '</' + 'script>')
+					.scrollTop(0);
+			}
 		});
 
-		$('.js-button--generate_slide').on('click', function (e) {
-			var $button = $(e.currentTarget),
-				$settings = $button.closest('.js-settings'),
-				index = parseInt($settings.data('index'), 10),
-				$container = $settings.parent(),
-				width = parseInt($container.data('width'), 10),
-				height = parseInt($container.data('height'), 10);
+		if (window.animationIntervals) {
+			for (var i = 0; i < window.animationIntervals.length; i++) {
+				clearTimeout(window.animationIntervals[i]);
+			}
+		}
 
-			$('.js-button--generate').trigger('click', [{
-				width: width,
-				height: height,
-				index: index
-			}]);
-		});
-	};
+		window.startAnimation();
+		$('.js-button--generate_slide').prop('disabled', false);
+	});
 
-	window.stopAnimation = function () {
-		clearTimeout(window.animationInterval);
-		$('.js-banner-container').empty();
-		$('.js-button--generate_slide').prop('disabled', true);
-	};
+	$('.l-container').on('click', '.js-button--generate_slide', function (e) {
+		var $button = $(e.currentTarget),
+			$settings = $button.closest('.js-settings'),
+			index = parseInt($settings.data('index'), 10),
+			$container = $settings.parent(),
+			width = parseInt($container.data('width'), 10),
+			height = parseInt($container.data('height'), 10);
 
-	window.initConstructor();
+		$('.js-button--generate').trigger('click', [{
+			width: width,
+			height: height,
+			index: index
+		}]);
+	});
+
+	$('.l-container').on('click', '.js-slide--copy', function (e) {
+		$(e.currentTarget).closest('.b-title').next().find('textarea').select();
+
+		try {
+			document.execCommand('copy');
+		} catch (e) {}
+	});
 });

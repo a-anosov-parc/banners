@@ -100,6 +100,7 @@ body, input, textarea, p {
 	min-height: 16px;
 	line-height: 16px;
 	padding-top: 8px;
+	position: relative;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -132,6 +133,11 @@ body, input, textarea, p {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.b-title .b-corner {
+	right: 0;
+	font-weight: normal;
 }
 
 .b-link {

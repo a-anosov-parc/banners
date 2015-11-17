@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>Конструктор баннеров для Casebook</title>
+		<meta charset="utf-8">
+		<link rel="shortcut icon" href="favicon.ico?201511171800">
 		<link rel="stylesheet" href="normalize.css">
 		<link rel="stylesheet" href="styles.css">
 	</head>
@@ -77,6 +79,30 @@
 				overflow: hidden;
 				white-space: nowrap;
 				word-wrap: normal;
+			}
+
+			.button-background {
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				position: absolute;
+				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=6)';
+				filter: alpha(opacity=6);
+				-moz-opacity: .06;
+				-khtml-opacity: .06;
+				opacity: .06;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+			}
+
+			.button:hover .button-background {
+				background: #fff;
+			}
+
+			.button:active .button-background {
+				background: #000;
 			}
 
 			/* 120x600 */
@@ -531,14 +557,17 @@
 				<div class="l-options">
 					<div class="b-slides js-slides"></div>
 					<div class="js-settings-container"></div>
+					<div class="js-settings-container-temp g-hidden"></div>
 				</div>
 			</div>
 			<div class="js-sizes"></div>
+			<div class="js-sizes-temp g-hidden"></div>
 		</div>
 
 		<script src="jquery.min.js"></script>
 		<script src="lodash.min.js"></script>
 		<script src="handlebars.min.js"></script>
+		<script src="ZeroClipboard.min.js"></script>
 
 		<script id="slides" type="text/x-handlebars-template">
 			{{#each slides}}
@@ -621,11 +650,9 @@
 					<div class="b-field">
 						<input class="ui-button js-button--generate" type="button" value="Создать баннеры">
 					</div>
-					{{#unless isMinSlidesCount}}
-						<div class="b-corner">
-							<span class="b-link js-slide--remove" data-index="{{@index}}">Удалить слайд</span>
-						</div>
-					{{/unless}}
+					<div class="b-corner">
+						<span class="b-link js-slide--remove" data-index="{{@index}}">Удалить слайд</span>
+					</div>
 				</div>
 			{{/each}}
 		</script>
@@ -634,16 +661,55 @@
 			{{#each slides}}
 				<div class="b-settings js-settings js-settings--{{@index}}{{#if @index}} g-hidden{{/if}}" data-index="{{@index}}">
 					<div class="b-title">
+						Время отображения слайда для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--time js-textbox--time" type="text" maxlength="3">
+					</div>
+					<div class="b-title">
+						Цвет фона баннера для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--background_color" type="text" maxlength="6">
+					</div>
+					<div class="b-title">
+						Цвет текста баннера для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--text_color" type="text" maxlength="6">
+					</div>
+					<div class="b-title">
 						Текст слайда для текущего шаблона
 					</div>
 					<div class="b-field">
 						<textarea class="ui-textarea js-textarea--text"></textarea>
+					</div>
+					<div class="b-title">
+						Цвет фона кнопки для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--button_background_color" type="text" maxlength="6">
+					</div>
+					<div class="b-title">
+						Цвет текста на кнопке для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox ui-textbox--color js-textbox--button_text_color" type="text" maxlength="6">
+					</div>
+					<div class="b-title">
+						Текст на кнопке для текущего шаблона
+					</div>
+					<div class="b-field">
+						<input class="ui-textbox js-textbox--button_text" type="text" maxlength="50">
 					</div>
 					<div class="b-field">
 						<input class="ui-button js-button--generate_slide" type="button" disabled="disabled" value="Применить">
 					</div>
 					<div class="b-title">
 						Исходный код баннера (только для чтения)
+						<div class="b-corner">
+							<span class="b-link js-slide--copy" data-clipboard-text="Copy2 Me!">Скопировать в буфер</span>
+						</div>
 					</div>
 					<div class="b-field">
 						<textarea class="ui-textarea ui-textarea--source js-textarea--source" readonly="readonly"></textarea>
@@ -688,6 +754,7 @@
 					</div>
 					<div class="button" style="color: #{{buttonTextColor}}; background: #{{buttonBackgroundColor}};">
 						{{buttonText}}
+						<div class="button-background"></div>
 					</div>
 				</div>
 			{{/each}}
@@ -696,32 +763,31 @@
 		<script src="scripts.js"></script>
 
 		<script id="banner_script">
+			window.animationIntervals = [];
+
 			window.startAnimation = function () {
-				var slideIndex = 0,
+				var slideIndexes = [],
 					slidesCount = 0,
 					containers = [],
 					divs = document.getElementsByTagName('div'),
-					i, j,
-					nextSlide = function () {
-						window.animationInterval = setTimeout(function () {
-							slideIndex += 1;
+					i = 0,
+					nextSlide = function (bannerIndex) {
+						window.animationIntervals[bannerIndex] = setTimeout(function () {
+							slideIndexes[bannerIndex] += 1;
 
-							if (slideIndex >= slidesCount) {
-								slideIndex = 0;
+							if (slideIndexes[bannerIndex] >= slidesCount) {
+								slideIndexes[bannerIndex] = 0;
 							}
 
 							for (i = 0; i < slidesCount; i++) {
-								for (j = 0; j < containers.length; j++) {
-									containers[j].children[i].style.display = 'none';
-								}
+								containers[bannerIndex].children[i].style.display = 'none';
 							}
 
-							for (j = 0; j < containers.length; j++) {
-								containers[j].children[slideIndex].style.display = 'block';
-							}
+							containers[bannerIndex].children[slideIndexes[bannerIndex]].style.display = 'block';
 
-							nextSlide();
-						}, parseInt(containers[0].children[slideIndex].getAttribute('rel'), 10) * 1000);
+							nextSlide(bannerIndex);
+						}, parseInt(containers[bannerIndex]
+									.children[slideIndexes[bannerIndex] || 0].getAttribute('rel'), 10) * 1000);
 					};
 
 				for (i = 0; i < divs.length; i++) {
@@ -732,7 +798,11 @@
 
 				if (containers.length) {
 					slidesCount = containers[0].children.length;
-					nextSlide();
+
+					for (i = 0; i < containers.length; i++) {
+						slideIndexes[i] = 0;
+						nextSlide(i);
+					}
 				}
 			};
 
