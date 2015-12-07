@@ -311,12 +311,12 @@ $(function() {
 					slideSizeParams.backgroundColor = backgroundColor;
 				}
 
-				if (backgroundColor) {
-					slideSizeParams.backgroundColor = backgroundColor;
-				}
-
 				if (textColor) {
 					slideSizeParams.textColor = textColor;
+				}
+
+				if (text) {
+					slideSizeParams.text = text;
 				}
 
 				if (buttonText) {
