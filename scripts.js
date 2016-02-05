@@ -262,6 +262,15 @@ $(function() {
 	$('.l-container').on('click', '.js-button--generate', function (e, options) {
 		var params = {
 				slides: []
+			},
+			setHTML = function (size) {
+				$('.js-settings-container-' + size.width + 'x' + size.height + ' .js-textarea--source')
+					.val('<!doctype html><html><head><meta charset="utf-8">' +
+						 '<meta name="ad.size" content="width=' + size.width + ',height=' + size.height + '">' +
+						 '<style>' + $('#banner_style').html() + '</style></head><body>' +
+						 $('.js-banner-' + size.width + 'x' + size.height).parent().html() +
+						 '<script>' + $('#banner_script').html() + '</' + 'script></body></html>')
+					.scrollTop(0);
 			};
 
 		if (!options) {
@@ -344,11 +353,7 @@ $(function() {
 						.after($('<div/>').html(source).children().eq(options.index))
 						.remove();
 
-					$('.js-settings-container-' + size.width + 'x' + size.height + ' .js-textarea--source')
-						.val('<style>' + $('#banner_style').html() + '</style>' +
-							 $('.js-banner-' + size.width + 'x' + size.height).parent().html() +
-							 '<script>' + $('#banner_script').html() + '</' + 'script>')
-						.scrollTop(0);
+					setHTML(size);
 				}
 
 				$('.js-banner-' + size.width + 'x' + size.height)
@@ -358,11 +363,7 @@ $(function() {
 					.css('display', 'block');
 			} else {
 				$('.js-banner-' + size.width + 'x' + size.height).html(source);
-				$('.js-settings-container-' + size.width + 'x' + size.height + ' .js-textarea--source')
-					.val('<style>' + $('#banner_style').html() + '</style>' +
-						 $('.js-banner-' + size.width + 'x' + size.height).parent().html() +
-						 '<script>' + $('#banner_script').html() + '</' + 'script>')
-					.scrollTop(0);
+				setHTML(size);
 			}
 		});
 
