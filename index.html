@@ -568,6 +568,8 @@
 		<script src="lodash.min.js"></script>
 		<script src="handlebars.min.js"></script>
 		<script src="ZeroClipboard.min.js"></script>
+		<script src="jszip.min.js"></script>
+		<script src="FileSaver.min.js"></script>
 
 		<script id="slides" type="text/x-handlebars-template">
 			{{#each slides}}
@@ -706,9 +708,11 @@
 						<input class="ui-button js-button--generate_slide" type="button" disabled="disabled" value="Применить">
 					</div>
 					<div class="b-title">
-						Исходный код баннера (только для чтения)
+						Исходный код баннера
 						<div class="b-corner">
 							<span class="b-link js-slide--copy" data-clipboard-text="Copy2 Me!">Скопировать в буфер</span>
+							&nbsp;|&nbsp;
+							<span class="b-link js-slide--zip">ZIP</span>
 						</div>
 					</div>
 					<div class="b-field">

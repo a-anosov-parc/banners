@@ -1,4 +1,4 @@
-/*global _:false, Handlebars:false, ZeroClipboard:false */
+/*global _:false, Handlebars:false, ZeroClipboard:false, JSZip:false, saveAs:false */
 'use strict';
 
 Handlebars.registerHelper('inc', function (value, options) {
@@ -392,11 +392,30 @@ $(function() {
 		}]);
 	});
 
-	$('.l-container').on('click', '.js-slide--copy', function (e) {
-		$(e.currentTarget).closest('.b-title').next().find('textarea').select();
+	$('.l-container')
+		.on('click', '.js-slide--copy', function (e) {
+			$(e.currentTarget).closest('.b-title').next().find('textarea').select();
 
-		try {
-			document.execCommand('copy');
-		} catch (e) {}
-	});
+			try {
+				document.execCommand('copy');
+			} catch (e) {}
+		})
+		.on('click', '.js-slide--zip', function (e) {
+			var source = $.trim($(e.currentTarget).closest('.b-title').next().find('textarea').val());
+
+			if (source) {
+				var zip = new JSZip(),
+					size = $.trim($(e.currentTarget).closest('.l-options').find('.l-title').text());
+
+				zip.file('index.html', source);
+
+				if (JSZip.support.blob) {
+					saveAs(zip.generate({type:'blob', compression:'DEFLATE'}),
+										'banner' + (size ? ('-' + size) : '') + '.zip');
+				} else {
+					window.location.href = 'data:application/zip;base64,' +
+										   zip.generate({type:'base64', compression:'DEFLATE'});
+				}
+			}
+		});
 });
